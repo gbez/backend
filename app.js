@@ -6,9 +6,9 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const AppError = require("./utilities/appError");
 const ErrorHandler = require("./controllers/errorController");
-const relationshipRoutes = require("./routes/relationshipRoutes");
+const relationshipRoutes = require("./routes/relationship/relationshipRoutes");
 const userRoutes = require("./routes/userRoutes");
-const groupRoutes = require("./routes/groupRoutes");
+const groupRoutes = require("./routes/relationship/groupRoutes");
 
 //Instantiate Express Instance
 const app = express();
@@ -16,6 +16,7 @@ const app = express();
 //Add Middleware
 app.use(morgan("dev"));
 
+//Cyber Security Middle Ware
 app.use(helmet());
 
 const limiter = rateLimit({
@@ -25,12 +26,8 @@ const limiter = rateLimit({
 });
 
 app.use("/api", limiter);
-app.use(express.json());
 
-//Send JSON Web Token as Header
-app.use((req, res, next) => {
-  next();
-});
+app.use(express.json());
 
 // Connect Routes (which is our own Middleware)
 app.use("/api/v1/relationships", relationshipRoutes);

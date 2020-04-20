@@ -12,7 +12,8 @@ mongoose
   .connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useUnifiedTopology: true,
   })
   .then(() => {
     console.log(
@@ -24,7 +25,7 @@ const server = app.listen(port, () => {
   console.log(`DimSumCart is waiting to take requests on port: ${port}...`);
 });
 
-process.on("unhandledRejection", err => {
+process.on("unhandledRejection", (err) => {
   console.log(err.name, err.message);
   console.log("UNHANDLED REJECTION...SHUTTING DOWN");
   server.close(() => {
@@ -32,7 +33,7 @@ process.on("unhandledRejection", err => {
   });
 });
 
-process.on("uncaughtException", err => {
+process.on("uncaughtException", (err) => {
   console.log(err.name, err.message);
   console.log("UNHANDLED EXCEPTION...SHUTTING DOWN");
   server.close(() => {
