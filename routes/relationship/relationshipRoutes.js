@@ -2,13 +2,12 @@ const express = require("express");
 const fs = require("fs");
 const relatinoshipController = require("../../controllers/relationship/relationshipController");
 const authController = require("../../controllers/authController");
+const groupController = require("../../controllers/relationship/groupController");
 const noteRouter = require("../../routes/helper/noteRoutes.js");
 
 const router = express.Router();
 
 router.use("/:parentName/:parentId/notes", noteRouter);
-
-//outer.use(authController.protect);
 
 router
   .route("/")
@@ -22,5 +21,6 @@ router
     authController.restrictTo("admin", "editor"),
     relatinoshipController.deleteRelationship
   );
+//router.route("/:groupId").get(relationshipController.getRelationshipByGroup);
 
 module.exports = router;

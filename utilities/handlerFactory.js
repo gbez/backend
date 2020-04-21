@@ -1,7 +1,7 @@
 const catchAsync = require("./catchAsync");
 const AppError = require("./appError");
 
-exports.getAll = (Model, popOptions) =>
+exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.find();
     res.status(200).json({

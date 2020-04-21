@@ -1,6 +1,7 @@
 const express = require("express");
 const groupController = require("../../controllers/relationship/groupController");
 const authController = require("../../controllers/authController");
+const relationshipController = require("../../controllers/relationship/relationshipController");
 
 const router = express.Router();
 router.use(authController.protect);
