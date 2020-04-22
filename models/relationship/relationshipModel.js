@@ -100,7 +100,7 @@ const relationshipSchema = new mongoose.Schema(
     },
     associatedRelations: {
       type: [associatedRelation],
-      select: false,
+      select: true,
     },
     pointPerson: {
       type: mongoose.Schema.ObjectId,
@@ -130,11 +130,7 @@ relationshipSchema.pre(/^find/, function (next) {
   this.populate({
     path: "groups",
     select: "groupName",
-  }).populate({
-    path: "pointPerson",
-    select: "_id firstName lastName",
   });
-
   next();
 });
 

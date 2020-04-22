@@ -9,6 +9,9 @@ const ErrorHandler = require("./controllers/errorController");
 const relationshipRoutes = require("./routes/relationship/relationshipRoutes");
 const userRoutes = require("./routes/userRoutes");
 const groupRoutes = require("./routes/relationship/groupRoutes");
+const bookRoutes = require("./routes/journal/bookRoutes");
+const quoteRoutes = require("./routes/journal/quoteRoutes");
+const timelineEventRoutes = require("./routes/journal/timelineEventRoutes");
 
 //Instantiate Express Instance
 const app = express();
@@ -33,6 +36,9 @@ app.use(express.json());
 app.use("/api/v1/relationships", relationshipRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/groups", groupRoutes);
+app.use("/api/v1/books", bookRoutes);
+app.use("/api/v1/quotes", quoteRoutes);
+app.use("/api/v1/timelineEvents", timelineEventRoutes);
 
 app.use(ErrorHandler);
 

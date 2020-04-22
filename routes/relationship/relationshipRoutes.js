@@ -18,9 +18,8 @@ router
   .get(relatinoshipController.getRelationship)
   .patch(relatinoshipController.updateRelationship)
   .delete(
-    authController.restrictTo("admin", "editor"),
+    authController.protect,
+    authController.restrictTo("admin"),
     relatinoshipController.deleteRelationship
   );
-//router.route("/:groupId").get(relationshipController.getRelationshipByGroup);
-
 module.exports = router;
