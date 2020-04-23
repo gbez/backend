@@ -38,7 +38,7 @@ const relationshipSchema = new mongoose.Schema(
     nickname: String,
     personalEmail: {
       type: String,
-      unique: true,
+      unique: [true, "This email is already taken, try another one"],
       required: [true, "email Required"],
       validate: [validator.isEmail, "Valid email Required"],
     },

@@ -40,6 +40,11 @@ app.use("/api/v1/books", bookRoutes);
 app.use("/api/v1/quotes", quoteRoutes);
 app.use("/api/v1/timelineEvents", timelineEventRoutes);
 
+//Error if route is missed
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
 app.use(ErrorHandler);
 
 //Start Server
