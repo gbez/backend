@@ -3,11 +3,11 @@ const User = require("./../models/userModel");
 const AppError = require("./../utilities/appError");
 
 const filterObj = (object, ...fields) => {
-  const newObj = {};
-  Object.keys(obj).forEach((el) => {
-    if (fields.includes(el)) newObject[el] = obj[el];
+  const newObject = {};
+  Object.keys(object).forEach((el) => {
+    if (fields.includes(el)) newObject[el] = object[el];
   });
-  return newObj;
+  return newObject;
 };
 
 //example of custom middleware
@@ -105,13 +105,19 @@ exports.updateMe = async (req, res, next) => {
         )
       );
     }
-    const filteredBody = filterObj(req.body, "name", "email");
+    const filteredBody = filterObj(
+      req.body,
+      "firstName",
+      "lastName",
+      "email",
+      "photo"
+    );
     const updatedUser = await User.findByIdAndUpdate(
       req.user.id,
       filteredBody,
       {
         new: true,
-        runValidators: true,
+        runValidators: false,
       }
     );
 
@@ -122,24 +128,6 @@ exports.updateMe = async (req, res, next) => {
       },
     });
     // 2) update user document
-  } catch (err) {}
-};
-
-exports.deleteMe = async (req, res, next) => {
-  await User.findByIdAndUpdate(req.user.id, { active: false });
-  res.status(204).json({
-    status: "success",
-    data: null,
-  });
-};
-
-exports.deleteUser = async (req, res) => {
-  try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    res.status(200).json({
-      status: "success",
-      data: user,
-    });
   } catch (err) {
     res.status(404).json({
       status: "failed",

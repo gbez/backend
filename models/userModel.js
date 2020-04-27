@@ -56,6 +56,7 @@ const userSchema = new mongoose.Schema({
 
 //Write middleware to encrypt password before save
 userSchema.pre("save", async function (next) {
+  console.log(this);
   //Only run function if password was changed
   if (!this.isModified("password")) return next();
   //Hash password with 12 salt (complexity of hash string)

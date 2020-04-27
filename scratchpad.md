@@ -17,3 +17,25 @@ If a Group is deleted, it should be deleted from every person who has that DB. T
 So the main tricky thing is the deleting of the Group, and we want to be able to create a Group on a relationship so that it both Creates a new group with default settings as well as adds that group ID to the relationship it was created on.
 
 Batch delete Contacts by deleting a group? If Contact is in no other field, then delete them. No reason to do so I think, but might be helpful to have built out?
+
+##### Users/Auth
+
+We really want to think through the process of our users and auth and who has permission to do what.
+
+To start, we instantiate the user document with a superuser with role of "admin".
+The admin can virtually do anything it wants to do. It can create other users, delete/update other users (by changing their status to inactive, as opposed to actually deleting them which may screw up some data).
+
+any user can change his/her password by going through the password reset functionality.
+
+a user can change his or her own information at the /me endpoint.
+
+A user can login with their credentials.
+
+A user may NOT change their role, active status, or any of the password related data.
+Just name, email, photo.
+
+1. Sign Up (should we verify email?) DONE
+2. Log In
+3. Reset Password (use email)
+4. Update Self
+5. Update other users (admin)
