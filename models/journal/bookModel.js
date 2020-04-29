@@ -1,6 +1,19 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
+const Note = new mongoose.Schema({
+  text: {
+    type: String,
+    required: [true, "Note content is required"],
+  },
+  dateCreated: {
+    type: Date,
+    default: Date.now,
+  },
+  tags: [String],
+  categories: [String],
+});
+
 const bookSchema = new mongoose.Schema(
   {
     title: {
@@ -20,6 +33,9 @@ const bookSchema = new mongoose.Schema(
     isbn: {
       type: Number,
       validate: [validator.isISBN, "Must be Valid ISBN #"],
+    },
+    notes: {
+      type: [Note],
     },
     categories: {
       type: [String],
