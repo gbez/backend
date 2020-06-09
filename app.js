@@ -16,6 +16,7 @@ const groupRoutes = require("./routes/relationship/groupRoutes");
 const bookRoutes = require("./routes/journal/bookRoutes");
 const quoteRoutes = require("./routes/journal/quoteRoutes");
 const timelineEventRoutes = require("./routes/journal/timelineEventRoutes");
+const blogPostRoutes = require("./routes/blog/blogPostRoutes");
 
 //Import Error Handling Modules
 
@@ -44,7 +45,7 @@ app.use("/api", limiter);
 
 //<--------------------------Route Middleware--------------------------------->
 
-// Connect Routes (which is our own Middleware)
+// Relationship Routes
 app.use("/api/v1/relationships", relationshipRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/groups", groupRoutes);
@@ -53,6 +54,9 @@ app.use("/api/v1/groups", groupRoutes);
 app.use("/api/v1/books", bookRoutes);
 app.use("/api/v1/quotes", quoteRoutes);
 app.use("/api/v1/timelineEvents", timelineEventRoutes);
+
+//Blog Routes
+app.use("/api/v1/blogPosts", blogPostRoutes);
 
 //Error if route is missed
 app.all("*", (req, res, next) => {

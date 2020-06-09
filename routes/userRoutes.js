@@ -19,7 +19,7 @@ router
   .route("/updateMe")
   .patch(authController.protect, userController.updateMe);
 
-router.route("/").get(userController.getAllUsers);
+router.route("/").get(authController.protect, userController.getAllUsers);
 router
   .route("/:id")
   .get(userController.getUser)
