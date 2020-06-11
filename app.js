@@ -3,6 +3,7 @@
 //Import App Modules
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 
 //Import Cyber Security Modules
 
@@ -29,6 +30,7 @@ const ErrorHandler = require("./controllers/errorController");
 const app = express();
 
 //Add Middleware
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
