@@ -1,13 +1,42 @@
 const catchAsync = require("./catchAsync");
 const AppError = require("./appError");
 
-exports.getAll = (Model) =>
+//Helper Functions
+function sanitize(query) {
+  const queryObject = { ...query };
+  const excludedFields = ["page", "sort", "limit", "fields"];
+  excludedFields.forEach((el) => delete queryObject[el]);
+  return queryObject;
+}
+
+async function getDistinct(Model, distinctFields) {
+  let distinctReturn = {};
+  for (var i = 0; i < distinctFields.length; i++) {
+    var field = distinctFields[i];
+    const val = await Model.distinct(field);
+    distinctReturn[field] = val;
+  }
+  return distinctReturn;
+}
+
+//Main Factory Functions
+
+exports.getAll = (Model, distinctFields) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.find();
+    let query = Model.find(sanitize(req.query));
+    if (req.query.sort) {
+      query = query.sort(req.query.sort);
+    }
+    const data = await query;
+    let distinct;
+    if (distinctFields) {
+      distinct = await getDistinct(Model, distinctFields);
+    }
     res.status(200).json({
       status: "success",
-      results: doc.length,
-      data: doc,
+      results: data.length,
+      distinct: distinct,
+      data: data,
     });
   });
 
