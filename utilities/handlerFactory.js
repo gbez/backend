@@ -1,7 +1,7 @@
 const catchAsync = require("./catchAsync");
 const AppError = require("./appError");
 
-//Helper Functions
+//--Helper Functions
 function sanitize(query) {
   const queryObject = { ...query };
   const excludedFields = ["page", "sort", "limit", "fields"];
@@ -19,14 +19,15 @@ async function getDistinct(Model, distinctFields) {
   return distinctReturn;
 }
 
-//Main Factory Functions
+//--Main Factory Functions
 
-exports.getAll = (Model, distinctFields) =>
+exports.getAll = (Model, popOptions, distinctFields) =>
   catchAsync(async (req, res, next) => {
     let query = Model.find(sanitize(req.query));
     if (req.query.sort) {
       query = query.sort(req.query.sort);
     }
+    if (popOptions) query = query.populate(popOptions);
     const data = await query;
     let distinct;
     if (distinctFields) {
