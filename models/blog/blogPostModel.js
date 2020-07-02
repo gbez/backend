@@ -36,11 +36,11 @@ const blogPostSchema = new mongoose.Schema(
       type: String,
     },
     page: {
-      String,
+      type: String,
       required: [true, "Post page is required"],
     },
     subpage: {
-      String,
+      type: String,
       required: [true, "Post subPage is required"],
     },
     categories: {
@@ -95,7 +95,7 @@ blogPostSchema.pre(/^find/, function (next) {
   next();
 });
 
-blogPostSchema.index({ publish_date: 1 });
+blogPostSchema.index({ publish_date: -1 });
 const BlogPost = mongoose.model("BlogPost", blogPostSchema);
 
 module.exports = BlogPost;

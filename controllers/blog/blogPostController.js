@@ -7,6 +7,7 @@ function dateHelper(year, month) {
   var start = new Date(year);
   var end = new Date(String(parseInt(year) + 1));
   if (month) {
+    //Because it is zero indexed for some reason i.e. Jan. = 0. Dec. = 11...etc.
     var month = parseInt(month) - 1;
     start = new Date(year, month);
     end = new Date(year, String(parseInt(month) + 1));
@@ -17,11 +18,11 @@ function dateHelper(year, month) {
 }
 
 exports.aliasBuilder = (req, res, next) => {
-  if (req.params.alias) {
-    req.query.categories = req.params.alias;
+  if (req.params.page) {
+    req.query.page = req.params.page;
   }
-  if (req.params.subalias) {
-    req.query.tags = req.params.subalias;
+  if (req.params.subpage) {
+    req.query.subpage = req.params.subpage;
   }
   if (req.params.year || req.params.month) {
     req.query.publish_date = dateHelper(req.params.year, req.params.month);

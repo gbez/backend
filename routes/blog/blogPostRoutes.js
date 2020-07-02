@@ -6,19 +6,19 @@ const router = express.Router();
 
 //Aliases
 router
-  .route("/alias/:alias")
+  .route("/alias/:page")
   .get(blogPostController.aliasBuilder, blogPostController.getAllBlogPosts);
 router
-  .route("/alias/:alias/:subalias")
+  .route("/alias/:page/:subpage")
   .get(blogPostController.aliasBuilder, blogPostController.getAllBlogPosts);
 router
-  .route("/alias/:alias/:subalias/:year")
+  .route("/alias/:page/:subpage/:year")
   .get(blogPostController.aliasBuilder, blogPostController.getAllBlogPosts);
 router
-  .route("/alias/:alias/:subalias/:year/:month")
+  .route("/alias/:page/:subpage/:year/:month")
   .get(blogPostController.aliasBuilder, blogPostController.getAllBlogPosts);
 router
-  .route("/alias/:alias/:subalias/:year/:month/:slug")
+  .route("/alias/:page/:subpage/:year/:month/:slug")
   .get(blogPostController.aliasBuilder, blogPostController.getAllBlogPosts);
 //Normal Routes
 router
