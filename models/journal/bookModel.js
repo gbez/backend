@@ -6,10 +6,6 @@ const Note = new mongoose.Schema({
     type: String,
     required: [true, "Note content is required"],
   },
-  dateCreated: {
-    type: Date,
-    default: Date.now,
-  },
   tags: [String],
   categories: [String],
 });
@@ -22,14 +18,19 @@ const bookSchema = new mongoose.Schema(
     },
     subtitle: String,
     author: {
-      type: String,
-      required: [true, "Book author required"],
+      type: mongoose.Schema.ObjectId,
+      ref: "Author",
     },
+    entryDate: {
+      type: Date,
+      default: Date.now,
+    },
+    publisher: String,
     publicationDate: Date,
     pageCount: Number,
-    amazonLink: String,
     synopsis: String,
     reflection: String,
+    authorNotes: String,
     isbn: {
       type: Number,
       validate: [validator.isISBN, "Must be Valid ISBN #"],

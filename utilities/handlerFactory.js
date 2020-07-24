@@ -2,11 +2,15 @@ const catchAsync = require("./catchAsync");
 const AppError = require("./appError");
 
 //--Helper Functions
+
 function sanitize(query) {
-  const queryObject = { ...query };
-  const excludedFields = ["page", "sort", "limit", "fields"];
-  excludedFields.forEach((el) => delete queryObject[el]);
-  return queryObject;
+  if (query) {
+    const queryObject = { ...query };
+    const excludedFields = ["page", "sort", "limit", "fields"];
+    excludedFields.forEach((el) => delete queryObject[el]);
+    return queryObject;
+  }
+  return "";
 }
 
 async function getDistinct(Model, distinctFields) {
@@ -26,6 +30,18 @@ exports.getAll = (Model, popOptions, distinctFields) =>
     let query = Model.find(sanitize(req.query));
     if (req.query.sort) {
       query = query.sort(req.query.sort);
+    } else {
+      query = query.sort("-publish_date");
+    }
+    if (req.query.page) {
+      const page = req.query.page || 1;
+      const limit = req.query.limit * 1 || 10;
+      const skip = (page - 1) * limit;
+      const numDocs = await Model.countDocuments();
+      if (skip >= numDocs) {
+        return next(new AppError("This Page Does Not Exist", 404));
+      }
+      query = query.skip(skip).limit(limit);
     }
     if (popOptions) query = query.populate(popOptions);
     const data = await query;

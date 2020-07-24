@@ -6,9 +6,11 @@ const quoteSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "Book",
     },
-    author: String,
+    attributedTo: String,
     text: String,
     date: Date,
+    pageNumber: Number,
+    chapterNumber: Number,
     tags: {
       type: [String],
       select: false,

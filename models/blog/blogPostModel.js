@@ -18,6 +18,9 @@ const blogPostSchema = new mongoose.Schema(
     subtitle: {
       type: String,
     },
+    description: {
+      type: String,
+    },
     slug: {
       type: String,
       default: function () {
@@ -27,6 +30,16 @@ const blogPostSchema = new mongoose.Schema(
     publish_date: {
       type: Date,
       default: Date.now,
+    },
+    url: {
+      type: String,
+      default: function () {
+        return `/${this.page}/${this.subpage}/${moment
+          .unix(this.publish_date / 1000)
+          .format("YYYY")}/${moment
+          .unix(this.publish_date / 1000)
+          .format("MM")}/${this.slug}`;
+      },
     },
     author: {
       type: mongoose.Schema.ObjectId,
@@ -55,9 +68,6 @@ const blogPostSchema = new mongoose.Schema(
     views: {
       type: Number,
       default: 0,
-    },
-    mainSubject: {
-      type: String,
     },
     relatedPosts: [
       {
