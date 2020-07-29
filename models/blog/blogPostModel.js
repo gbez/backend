@@ -62,7 +62,10 @@ const blogPostSchema = new mongoose.Schema(
     tags: {
       type: [String],
     },
-    thumbnail: {
+    desktopThumbnail: {
+      type: String,
+    },
+    mobileThumbnail: {
       type: String,
     },
     views: {
@@ -76,8 +79,13 @@ const blogPostSchema = new mongoose.Schema(
       },
     ],
     accessibleTo: {
-      type: [String],
+      type: String,
+      enum: ["all", "subscribers", "users"],
       default: "all",
+    },
+    visible: {
+      type: Boolean,
+      default: true,
     },
   },
   { id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } }
@@ -91,6 +99,14 @@ blogPostSchema.virtual("readableDate").get(function () {
 blogPostSchema.virtual("readingTime").get(function () {
   if (this.content) {
     return readingTime(this.content);
+  }
+});
+
+blogPostSchema.virtual("status").get(function () {
+  if (this.publish_date > Date.now()) {
+    return "pending";
+  } else {
+    return "published";
   }
 });
 
