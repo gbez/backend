@@ -39,7 +39,7 @@ exports.createBlogPost = factory.createOne(BlogPost);
 exports.getAllBlogPosts = factory.getAll(
   BlogPost,
   { path: "author relatedPosts" },
-  ["categories", "tags"]
+  ["categories", "tags", "page", "subpage"]
 );
 
 exports.getBlogPost = factory.getOne(BlogPost, { path: "author relatedPosts" });
