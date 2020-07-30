@@ -76,7 +76,7 @@ exports.getUser = async (req, res) => {
   }
 };
 
-exports.whoAmI = (req, res) => {
+exports.whoAmI = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     res.status(200).json({
