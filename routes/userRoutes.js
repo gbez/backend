@@ -10,7 +10,7 @@ router.route("/login").post(authController.login);
 
 router.route("/forgotPassword").post(authController.forgotPassword);
 router.route("/resetPassword/:token").patch(authController.resetPassword);
-router.route("/whoAmI").get(authController.protect, authController.whoAmI);
+router.route("/whoAmI").get(authController.protect, userController.whoAmI);
 
 router
   .route("/updateMyPassword")
