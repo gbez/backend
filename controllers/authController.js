@@ -205,3 +205,11 @@ exports.updateMyPassword = async (req, res, next) => {
     });
   }
 };
+
+exports.whoAmI = async (req, res, next) => {
+  res.status(400).json({
+    status: "success",
+    message: "User identity found",
+    data: req.user,
+  });
+};
