@@ -87,6 +87,10 @@ const blogPostSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    endpoint: {
+      type: String,
+      default: "/blogposts",
+    },
   },
   { id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
