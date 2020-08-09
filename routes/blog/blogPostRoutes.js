@@ -12,7 +12,11 @@ router
 router
   .route("/:id")
   .get(blogPostController.getBlogPost)
-  .patch(blogPostController.updateBlogPost)
+  .patch(
+    authController.protect,
+    blogPostController.uploadSound,
+    blogPostController.updateBlogPost
+  )
   .delete(
     authController.protect,
     authController.restrictTo("admin"),
