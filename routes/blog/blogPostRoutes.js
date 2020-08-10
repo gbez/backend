@@ -1,6 +1,7 @@
 const express = require("express");
 const blogPostController = require("../../controllers/blog/blogPostController");
 const authController = require("../../controllers/authController");
+const { setFilenames } = require("../../utilities/uploadHelper");
 
 const router = express.Router();
 
@@ -8,13 +9,19 @@ const router = express.Router();
 router
   .route("/")
   .get(blogPostController.getAllBlogPosts)
-  .post(blogPostController.createBlogPost);
+  .post(
+    authController.protect,
+    blogPostController.uploadFiles,
+    setFilenames,
+    blogPostController.createBlogPost
+  );
 router
   .route("/:id")
   .get(blogPostController.getBlogPost)
   .patch(
     authController.protect,
-    blogPostController.uploadSound,
+    blogPostController.uploadFiles,
+    setFilenames,
     blogPostController.updateBlogPost
   )
   .delete(

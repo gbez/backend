@@ -1,7 +1,7 @@
 const catchAsync = require("./catchAsync");
 const AppError = require("./appError");
 
-//--Helper Functions
+//-----------------------------Helper Functions------------------------------->
 
 function sanitize(query) {
   if (query) {
@@ -23,7 +23,7 @@ async function getDistinct(Model, distinctFields) {
   return distinctReturn;
 }
 
-//--Main Factory Functions
+//-------------------------Main Factory Functions----------------------------->
 
 exports.getAll = (Model, popOptions, distinctFields) =>
   catchAsync(async (req, res, next) => {
@@ -90,10 +90,6 @@ exports.deleteOne = (Model) =>
 
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    if (req.file) {
-      req.body[req.file.fieldname] = req.file.filename;
-    }
-    console.log(req.body);
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,

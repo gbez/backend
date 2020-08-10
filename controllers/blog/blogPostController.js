@@ -1,13 +1,17 @@
 const BlogPost = require("../../models/blog/blogPostModel");
 const factory = require("../../utilities/handlerFactory");
-const {
-  imageUpload,
-  textUpload,
-  videoUpload,
-  audioUpload,
-} = require("../../utilities/uploadHelper");
+const { upload } = require("../../utilities/uploadHelper");
 
-//Custom Middleware
+//-----------------------------File Middleware-------------------------------->
+
+const blogpostUpload = upload("blogposts");
+exports.uploadFiles = blogpostUpload.fields([
+  { name: "desktopThumbnail", maxCount: 1 },
+  { name: "mobileThumbnail", maxCount: 1 },
+  { name: "content", maxCount: 1 },
+]);
+
+//---------------------------Custom Middleware-------------------------------->
 
 function dateHelper(year, month) {
   var start = new Date(year);
@@ -39,17 +43,8 @@ exports.aliasBuilder = (req, res, next) => {
   next();
 };
 
-const blogpostImageUpload = imageUpload("blogposts");
-const blogpostTextUpload = textUpload("blogposts");
-const blogpostAudioUpload = audioUpload("blogposts");
-const blogpostVideoUpload = videoUpload("blogposts");
-exports.uploadDesktopThumbnail = blogpostImageUpload.single("desktopThumbnail");
-exports.uploadMobileThumbnail = blogpostImageUpload.single("mobileThumbnail");
-exports.uploadCSV = blogpostTextUpload.single("addresses");
-exports.uploadCoverVideo = blogpostVideoUpload.single("earth");
-exports.uploadSound = blogpostAudioUpload.single("sound");
+//------------------------Factory CRUD Operations----------------------------->
 
-//Factory CRUD Operations
 exports.createBlogPost = factory.createOne(BlogPost);
 
 exports.getAllBlogPosts = factory.getAll(

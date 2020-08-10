@@ -1,19 +1,14 @@
 const multer = require("multer");
 const AppError = require("../utilities/appError");
 
-const getMulterStorage = (fileType, model) => {
+const getMulterStorage = (model) => {
   var multerStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, `public/${fileType}/${model}`);
+      cb(null, `public/${file.mimetype.split("/")[0]}/${model}`);
     },
     filename: (req, file, cb) => {
       const ext = file.mimetype.split("/")[1];
-      cb(
-        null,
-        `${file.originalname.split(".")[0]}-user-${
-          req.user.id
-        }-${Date.now()}.${ext}`
-      );
+      cb(null, `${file.originalname.split(".")[0]}-${Date.now()}.${ext}`);
     },
   });
   return multerStorage;
@@ -36,15 +31,26 @@ const getMulterFilter = (fileType) => {
   return MulterFilter;
 };
 
-const getUpload = (fileType, model) => {
+const getUpload = (model) => {
   var upload = multer({
-    storage: getMulterStorage(fileType, model),
-    fileFilter: getMulterFilter(fileType),
+    storage: getMulterStorage(model),
   });
   return upload;
 };
 
-exports.imageUpload = (model) => getUpload("image", model);
-exports.audioUpload = (model) => getUpload("audio", model);
-exports.videoUpload = (model) => getUpload("video", model);
-exports.textUpload = (model) => getUpload("text", model);
+exports.upload = (model) => getUpload(model);
+
+exports.setFilenames = (req, res, next) => {
+  function setBody(file) {
+    req.body[file.fieldname] = file.filename;
+  }
+  if (req.file) {
+    setBody(req, req.file);
+  } else if (req.files) {
+    for (var field in req.files) {
+      setBody(req.files[field][0]);
+    }
+  }
+
+  next();
+};
