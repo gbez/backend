@@ -1,6 +1,6 @@
 const BlogPost = require("../../models/blog/blogPostModel");
-const factory = require("../../utilities/handlerFactory");
-const { upload } = require("../../utilities/uploadHelper");
+const factory = require("../utilities/handlerFactory");
+const { upload } = require("../utilities/uploadHelper");
 
 //-----------------------------File Middleware-------------------------------->
 
@@ -49,8 +49,7 @@ exports.createBlogPost = factory.createOne(BlogPost);
 
 exports.getAllBlogPosts = factory.getAll(
   BlogPost,
-  { path: "author relatedPosts" },
-  ["categories", "tags", "page", "subpage"]
+  ["categort", "tag"]
 );
 
 exports.getBlogPost = factory.getOne(BlogPost, { path: "author relatedPosts" });

@@ -1,7 +1,7 @@
 const express = require("express");
 const blogPostController = require("../../controllers/blog/blogPostController");
-const authController = require("../../controllers/authController");
-const { setFilenames } = require("../../utilities/uploadHelper");
+const authController = require("../controllers/authController");
+const { setFilenames } = require("../utilities/uploadHelper");
 
 const router = express.Router();
 

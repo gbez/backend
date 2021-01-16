@@ -41,55 +41,21 @@ const blogPostSchema = new mongoose.Schema(
           .format("MM")}/${this.slug}`;
       },
     },
-    author: {
-      type: mongoose.Schema.ObjectId,
-      ref: "User",
-    },
     content: {
       type: String,
     },
-    page: {
+    category: {
       type: String,
-      required: [true, "Post page is required"],
     },
-    subpage: {
-      type: String,
-      required: [true, "Post subPage is required"],
-    },
-    categories: {
+    tag: {
       type: [String],
     },
-    tags: {
-      type: [String],
-    },
-    desktopThumbnail: {
+    thumbnail: {
       type: String,
-    },
-    mobileThumbnail: {
-      type: String,
-    },
-    views: {
-      type: Number,
-      default: 0,
-    },
-    relatedPosts: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: "BlogPost",
-      },
-    ],
-    accessibleTo: {
-      type: String,
-      enum: ["all", "subscribers", "users"],
-      default: "all",
     },
     visible: {
       type: Boolean,
       default: true,
-    },
-    endpoint: {
-      type: String,
-      default: "/blogposts",
     },
   },
   { id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } }
@@ -100,11 +66,6 @@ blogPostSchema.virtual("readableDate").get(function () {
     return moment.unix(this.publish_date / 1000).format("dddd, MMMM Do, YYYY");
 });
 
-blogPostSchema.virtual("readingTime").get(function () {
-  if (this.content) {
-    return readingTime(this.content);
-  }
-});
 
 blogPostSchema.virtual("status").get(function () {
   if (this.publish_date > Date.now()) {
@@ -116,16 +77,13 @@ blogPostSchema.virtual("status").get(function () {
 
 blogPostSchema.pre(/^find/, function (next) {
   this.populate({
-    path: "author",
-    select: "firstName lastName email",
-  });
-  this.populate({
     path: "relatedPosts",
   });
   next();
 });
 
 blogPostSchema.index({ publish_date: -1 });
+
 const BlogPost = mongoose.model("BlogPost", blogPostSchema);
 
 module.exports = BlogPost;

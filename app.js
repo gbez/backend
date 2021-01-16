@@ -52,17 +52,8 @@ app.use("/api", limiter);
 
 //<--------------------------Route Middleware--------------------------------->
 
-// Relationship Routes
-app.use("/api/v1/relationships", relationshipRoutes);
+// Routes
 app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/groups", groupRoutes);
-
-//Journal Routes
-app.use("/api/v1/books", bookRoutes);
-app.use("/api/v1/quotes", quoteRoutes);
-app.use("/api/v1/timelineEvents", timelineEventRoutes);
-
-//Blog Routes
 app.use("/api/v1/blogPosts", blogPostRoutes);
 
 //Error if route is missed
