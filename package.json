@@ -4,7 +4,7 @@
   "description": "backend site for personal blog",
   "main": "index.js",
   "scripts": {
-    "start": "nodeman server.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Grant Besner",
