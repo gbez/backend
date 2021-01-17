@@ -12,7 +12,7 @@ router
     blogController.createBlog
   );
 router
-  .route("/:id")
+  .route("/id/:id")
   .get(blogController.getBlog)
   .delete(blogController.deleteBlog)
   .patch(
@@ -24,7 +24,13 @@ router
   .route("/:field/:name/:page")
   .get(blogController.filterBlog, blogController.getAllBlogs);
 router
-  .route("/:year/:month/:day/:slug")
+  .route("/:year")
   .get(blogController.filterBlog, blogController.getAllBlogs);
+router
+  .route("/:year/:month")
+  .get(blogController.filterBlog, blogController.getAllBlogs);
+router
+  .route("/:year/:month/:day/:slug")
+  .get(blogController.filterBlog, blogController.getBlog);
 
 module.exports = router;
