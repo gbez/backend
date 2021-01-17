@@ -15,6 +15,13 @@ exports.filterBlog = (req, res, next) => {
     req.query[req.params.field] = req.params.name;
     req.query.page = req.params.page;
   }
+  if (req.params.year || req.params.month || req.params.day) {
+    req.query.publish_date = helpers.dateToQuery(
+      req.params.year,
+      req.params.month,
+      req.params.day
+    );
+  }
   if (req.params.slug) {
     req.query.slug = req.params.slug;
   }
