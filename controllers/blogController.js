@@ -1,8 +1,13 @@
 const Blog = require("../models/blogModel");
 const factory = require("../utilities/handlerFactory");
+const upload = require("../utilities/upload");
 const helpers = require("../helpers");
 
 // File Middleware
+exports.uploadBlogFiles = upload.file.fields([
+  { name: "thumbnail", maxCount: 1 },
+  { name: "content", maxCount: 1 },
+]);
 
 // Custom Middleware
 exports.filterBlog = (req, res, next) => {
