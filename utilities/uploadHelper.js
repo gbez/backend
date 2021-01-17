@@ -1,13 +1,12 @@
 const multer = require("multer");
 
-const getMulterStorage = (model) => {
+const getMulterStorage = () => {
   var multerStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, `public/${file.mimetype.split("/")[0]}/${model}`);
+      cb(null, `uploads/${file.mimetype.split("/")[0]}`);
     },
     filename: (req, file, cb) => {
-      const ext = file.mime;
-      type.split("/")[1];
+      const ext = file.mimetype.split("/")[1];
       cb(null, `${file.originalname.split(".")[0]}-${Date.now()}.${ext}`);
     },
   });
@@ -23,14 +22,14 @@ const getMulterFilter = (fileType) => {
   return MulterFilter;
 };
 
-const getUpload = (model) => {
+const getUpload = () => {
   var upload = multer({
-    storage: getMulterStorage(model),
+    storage: getMulterStorage(),
   });
   return upload;
 };
 
-exports.upload = (model) => getUpload(model);
+exports.upload = () => getUpload();
 
 exports.setFilenames = (req, res, next) => {
   function setBody(file) {

@@ -1,7 +1,6 @@
 const Blog = require("../models/blogModel");
 const factory = require("../utilities/handlerFactory");
 const helpers = require("../helpers");
-//const { upload } = require("../utilities/uploadHelper");
 
 // File Middleware
 
