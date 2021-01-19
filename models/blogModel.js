@@ -57,5 +57,22 @@ const blogSchema = new mongoose.Schema(
   },
   { id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+blogSchema.virtual("readableDate").get(function () {
+  if (this.publish_date)
+    return moment.unix(this.publish_date / 1000).format("MMMM Do, YYYY");
+});
+
+blogSchema.virtual("readingTime").get(function () {
+  if (this.content) return readingTime(this.content);
+});
+
+blogSchema.virtual("status").get(function () {
+  if (this.publish_date > Date.now()) {
+    return "pending";
+  } else {
+    return "published";
+  }
+});
 const Blog = mongoose.model("Blog", blogSchema);
 module.exports = Blog;
