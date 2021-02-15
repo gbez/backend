@@ -2,6 +2,7 @@
 const mongoose = require("mongoose");
 const app = require("./app");
 const dotenv = require("dotenv");
+var cron = require("./utilities/cronScheduler");
 dotenv.config({ path: "./config.env" });
 
 //Load variables from process environment
@@ -19,7 +20,9 @@ mongoose
   .then(() => {
     console.log("DB Connection Succcessful!");
   });
+
 // Instantiate server
 const server = app.listen(port, () => {
+  cron.start();
   console.log(`backend is waiting to take request on port: ${port}...`);
 });
