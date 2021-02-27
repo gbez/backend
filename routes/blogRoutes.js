@@ -6,20 +6,12 @@ const router = express.Router();
 router
   .route("/")
   .get(blogController.getAllBlogs)
-  .post(
-    blogController.uploadBlogFiles,
-    upload.setFilenames,
-    blogController.createBlog
-  );
+  .post(blogController.createBlog);
 router
   .route("/id/:id")
   .get(blogController.getBlog)
   .delete(blogController.deleteBlog)
-  .patch(
-    blogController.uploadBlogFiles,
-    upload.setFilenames,
-    blogController.updateBlog
-  );
+  .patch(blogController.updateBlog);
 router
   .route("/:field/:name/:page")
   .get(blogController.filterBlog, blogController.getAllBlogs);

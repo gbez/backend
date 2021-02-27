@@ -9,7 +9,10 @@ const path = require("path");
 const AppError = require("./utilities/appError");
 
 // Import Routes
+const userRoutes = require("./routes/userRoutes");
 const blogRoutes = require("./routes/blogRoutes");
+const relationshipRoutes = require("./routes/relationshipRoutes");
+
 // MIDDLEWARE
 // Instantiate Express Instance
 const app = express();
@@ -27,6 +30,8 @@ app.use(helmet());
 // ROUTING
 app.use(express.static("public"));
 app.use("/api/v1/blog", blogRoutes);
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/relationship", relationshipRoutes);
 
 // ERROR HANDLING
 app.all("*", (req, res, next) => {

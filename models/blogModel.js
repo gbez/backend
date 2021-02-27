@@ -47,7 +47,10 @@ const blogSchema = new mongoose.Schema(
     tag: {
       type: [String],
     },
-    thumbnail: {
+    thumbnail_web: {
+      type: String,
+    },
+    thumbnail_mobile: {
       type: String,
     },
     visible: {
