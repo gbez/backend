@@ -12,7 +12,7 @@ function sanitize(query) {
     excludedFields.forEach((el) => delete queryObject[el]);
     return queryObject;
   }
-  return "";
+  return query;
 }
 
 async function getDistinct(Model, distinctFields) {
@@ -61,10 +61,10 @@ exports.getAll = (Model, popOptions, distinctFields) =>
 
 exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
-    let query = Model.find({ slug: req.params.slug });
+    let query = Model.find({ email: req.params.email });
     if (popOptions) query = query.populate(popOptions);
     const doc = await query;
-
+    console.log(doc);
     if (!doc) {
       return next(new AppError("No document found with that ID", 404));
     }

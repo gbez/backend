@@ -33,4 +33,4 @@ var task = cron.schedule("0 5 * * 0", function () {
   console.log("Cron Job");
 });
 
-module.exports = task;
+//module.exports = task;
