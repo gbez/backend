@@ -12,14 +12,22 @@ router
 router
   .route("/id/:id")
   .get(userController.getUser)
-  .delete(userController.deleteUser)
-  .patch(userController.updateUser);
+  .delete(
+    authController.protect,
+    authController.restrictTo("admin"),
+    userController.deleteUser
+  )
+  .patch(
+    authController.protect,
+    authController.restrictTo("admin"),
+    userController.updateUser
+  );
 
 //AUTH ROUTES
-router.route("/signup");
-router.route("/login");
-router.route("/forgotPassword");
-router.route("/resetPassword/:token");
+router.route("/signup").post(authController.signup);
+router.route("/login").post(authController.login);
+router.route("/forgotPassword").post(authController.forgotPassword);
+router.route("/resetPassword/:token").patch(authController.resetPassword);
 router.route("/updateMyPassword");
 router.route("/updateMe");
 

@@ -1,12 +1,13 @@
 const express = require("express");
 const blogController = require("../controllers/blogController");
+const authController = require("../controllers/authController");
 const upload = require("../utilities/upload");
 const router = express.Router();
 
 router
   .route("/")
   .get(blogController.getAllBlogs)
-  .post(blogController.createBlog);
+  .post(authController.protect, blogController.createBlog);
 router
   .route("/id/:id")
   .get(blogController.getBlog)

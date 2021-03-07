@@ -1,5 +1,5 @@
 const User = require("../models/UserModel");
-//const sendEmail = require("../utilities/email");
+const email = require("../utilities/email/nodemailer");
 const AppError = require("../utilities/appError");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
@@ -22,7 +22,7 @@ const createSendToken = (user, statusCode, res) => {
     secure: true,
     httpOnly: true,
   });
-  res.statusCode(statusCode).json({
+  res.status(statusCode).json({
     status: "success",
     token,
     data: {
@@ -34,6 +34,7 @@ const createSendToken = (user, statusCode, res) => {
 // AUTHORIZATION METHODS
 exports.signup = async (req, res, next) => {
   try {
+    console.log(req.body);
     const newUser = await User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -66,6 +67,7 @@ exports.login = async (req, res, next) => {
 };
 
 exports.protect = async (req, res, next) => {
+  console.log("in Protect");
   let token;
   if (
     req.headers.authorization &&
@@ -75,6 +77,7 @@ exports.protect = async (req, res, next) => {
   }
 
   if (!token) {
+    console.log("no token");
     return new AppError("You are not logged in!", 401);
   }
 
@@ -104,4 +107,63 @@ exports.restrictTo = (...roles) => {
     }
     next();
   };
+};
+
+exports.forgotPassword = async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new AppError("There is no user with that email address.", 404));
+  }
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+  const resetURL = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/user/resetPassword/${resetToken}`;
+
+  const message = {
+    from: "grant@grantbesner.com",
+    to: "besgr01@nova.edu",
+    subject: "Reset Password",
+    text: `Submit Path request to: ${resetURL}`,
+    html: `<h1>Submit Path request to: ${resetURL}</h1>`,
+  };
+  try {
+    await email.send(message);
+    res.status(200).json({ status: "status", message: "Token sent to email!" });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+    return next(
+      new AppError("There was an error sending the reset password email", 500)
+    );
+  }
+};
+
+exports.resetPassword = async (req, res, next) => {
+  try {
+    console.log(req.params.token);
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(req.params.token)
+      .digest("hex");
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      //passwordResetExpires: { $gt: Date.now() },
+    });
+    if (!user) {
+      return next(new AppError("Token is invalid or has expired", 400));
+    }
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+    createSendToken(user, 200, res);
+  } catch (err) {
+    res.status(400).json({
+      status: "error",
+      message: err,
+    });
+  }
 };

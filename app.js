@@ -29,7 +29,7 @@ app.use(helmet());
 
 // ROUTING
 app.use(express.static("public"));
-app.use("/api/v1/blog", blogRoutes);
+app.use("/api/v1/blogpost", blogRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/relationship", relationshipRoutes);
 

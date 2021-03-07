@@ -67,6 +67,7 @@ userSchema.pre("save", async function (next) {
 
 userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
+  next();
 });
 
 userSchema.methods.correctPassword = async function (
@@ -81,7 +82,7 @@ userSchema.methods.createPasswordResetToken = function () {
   this.passwordResetToken = crypto
     .createHash("sha256")
     .update(resetToken)
-    .digest("hext");
+    .digest("hex");
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
   return resetToken;
 };

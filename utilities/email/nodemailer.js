@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
+const mg = require("nodemailer-mailgun-transport");
 
-var transport = nodemailer.createTransport({
+var mailtrapTransport = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,
   auth: {
@@ -9,11 +10,29 @@ var transport = nodemailer.createTransport({
   },
 });
 
-exports.send = (message) =>
-  transport.sendMail(message, function (err, info) {
+exports.sendTest = (message) =>
+  mailtrapTransport.sendMail(message, function (err, info) {
     if (err) {
       console.log(err);
     } else {
       console.log(info);
     }
   });
+
+var gmailTransport = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "gmbmonkeyvp@gmail.com",
+    pass: "u8R3ndVb5pjyqvHBcs",
+  },
+});
+
+exports.send = (message) => {
+  gmailTransport.sendMail(message, function (err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(info);
+    }
+  });
+};
