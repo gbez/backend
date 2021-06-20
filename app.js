@@ -12,6 +12,7 @@ const AppError = require("./utilities/appError");
 const userRoutes = require("./routes/userRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const relationshipRoutes = require("./routes/relationshipRoutes");
+const communicationRoutes = require("./routes/communicationRoutes");
 
 // MIDDLEWARE
 // Instantiate Express Instance
@@ -32,6 +33,7 @@ app.use(express.static("public"));
 app.use("/api/v1/blogpost", blogRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/relationship", relationshipRoutes);
+app.use("/api/v1/communication", communicationRoutes);
 
 // ERROR HANDLING
 app.all("*", (req, res, next) => {

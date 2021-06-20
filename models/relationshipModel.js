@@ -5,10 +5,21 @@ const moment = require("moment");
 
 const relationshipSchema = new mongoose.Schema(
   {
-    firstName: {
+    email: {
       type: String,
       required: true,
+      validate: validator.isEmail,
     },
+    firstName: String,
+    lastName: String,
+    DoB: Date,
+    phone: Number,
+    address: String,
+    newsletters: [String],
+    /* TODO
+     * Create sub scheme for group. Each relationship belongs to a group.
+     * Each group has a priority number.
+     */
   },
   { id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );

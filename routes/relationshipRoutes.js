@@ -11,5 +11,12 @@ router
   .get(relationshipController.getRelationship)
   .delete(relationshipController.deleteRelationship)
   .patch(relationshipController.updateRelationship);
+router.route("/subscribe/").post(relationshipController.newsletterSubscribe);
+router
+  .route("/unsubscribe/:id")
+  .post(relationshipController.newsletterUnsubscribe);
+router
+  .route("/subscriptionInformation/:email")
+  .get(relationshipController.getSubscriptionInformation);
 
 module.exports = router;
