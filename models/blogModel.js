@@ -40,6 +40,7 @@ const blogSchema = new mongoose.Schema(
     },
     content: {
       type: String,
+      required: [true, "Blog Content is Required!"],
     },
     category: {
       type: String,

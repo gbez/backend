@@ -6,6 +6,21 @@ const helpers = require("../utilities/helpers");
 exports.filterUser = (req, res, next) => {
   next();
 };
+
+exports.whoAmI = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.status(200).json({
+      status: "success",
+      data: user,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "failed",
+      message: err,
+    });
+  }
+};
 // CRUD Operations
 exports.getAllUsers = factory.getAll(User);
 exports.getUser = factory.getOne(User);
