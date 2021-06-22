@@ -22,7 +22,8 @@ exports.sendNewsletterEmail = async (req, res, next) => {
           emailBody: req.body.emailBody,
         },
       };
-      await email.send(message);
+      //await email.send(message);
+      await email.sendTest(message);
     });
     res.status(400).json({
       status: "success",

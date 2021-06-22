@@ -1,5 +1,24 @@
 {{> header}}
-<h1>Hiking</h1>
+
 {{{emailBody}}}
-<p>{{firstName}} {{lastName}}</p>
+{{#if firstName}}
+<p>Hey {{firstName}},</p>
+<br>
+{{/if}}
+
+{{Reflection}}
+
+Timeline
+<p>{{timeline}}</p>
+
+Quotes
+<ul class="people_list">
+  {{#each people}}
+    <li>{{this}}</li>
+  {{/each}}
+</ul>
+
+Pictures
+<img src="{{image}}">
+
 {{> footer}}
