@@ -1,4 +1,4 @@
-const User = require("../models/UserModel");
+const User = require("../models/userModel");
 const factory = require("../utilities/handlerFactory");
 const helpers = require("../utilities/helpers");
 
