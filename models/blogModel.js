@@ -56,7 +56,7 @@ const blogSchema = new mongoose.Schema(
     },
     visible: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   { id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } }

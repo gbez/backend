@@ -7,8 +7,8 @@ const relationshipSchema = new mongoose.Schema(
   {
     email: {
       type: String,
-      required: true,
-      validate: validator.isEmail,
+      required: [true, "Email is required!"],
+      validate: [validator.isEmail, "email must be valid"]
     },
     firstName: String,
     lastName: String,

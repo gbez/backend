@@ -1,6 +1,6 @@
 const express = require("express");
 const cron = require("node-cron");
-const email = require("./email/nodemailer");
+const email = require("./email/myMailer");
 const text = require("./text");
 
 const message = {
@@ -20,6 +20,9 @@ var task = cron.schedule("* * * * *", function () {
 
 //Every Hour
 var task = cron.schedule("0 * * * *", function () {
+  //Check Blog Posts PublishAt Date
+  //Change Visibility to True
+  //Send Blog Content out in an email
   console.log("Every Hour - Cron Job");
 });
 
