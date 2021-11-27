@@ -14,9 +14,6 @@ router
   .delete(blogController.deleteBlog)
   .patch(blogController.updateBlog);
 router
-  .route("/:field/:name/:page")
-  .get(blogController.filterBlog, blogController.getAllBlogs);
-router
   .route("/:year")
   .get(blogController.filterBlog, blogController.getAllBlogs);
 router
